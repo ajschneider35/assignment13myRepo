@@ -43,6 +43,7 @@ import java.util.Scanner;
 public class NetworkGraph {
 
 	private Map<String, Airport> airportMap;
+	private Map<String, Flight> flightMap;
 	private Hashtable<String, LinkedList<String>> network;
 
 	/**
@@ -75,6 +76,7 @@ public class NetworkGraph {
 		// appropriately in this object.
 
 		airportMap = new HashMap<String, Airport>();
+		flightMap = new HashMap<String, Flight>();
 		network = new Hashtable<String, LinkedList<String>>();
 		parseCSVFile(flightInfoPath);
 	}
@@ -240,12 +242,12 @@ public class NetworkGraph {
 	 * @param airport2
 	 * @param cost
 	 */
-	public void addEdge(String airport1, String airport2, double cost, LinkedList<String> carriers, double distance,
+	public void addFlight(String airport1, String airport2, double cost, LinkedList<String> carriers, double distance,
 			double time, double delay, double canceled) {
 
 		Airport a = getAirport(airport1);
 		Airport w = getAirport(airport2);
-		a.adj.add(new Flight(w, cost, carriers, distance, time, delay, canceled));
+		a.adj.add(new Flight(a, w, cost, carriers, distance, time, delay, canceled));
 	}
 
 	/**
@@ -334,6 +336,20 @@ public class NetworkGraph {
 						network.put("TIME", timeList);
 						network.put("DISTANCE", distanceList);
 						network.put("COST", costList);
+						
+						if(!flightMap.containsKey(line[1])) {
+							flightMap.put(line[0] + " to " + line[1], new Flight(airportMap.get(line[0]), airportMap.get(line[1]), avgCriteria(costList),
+									new LinkedList<String>(), avgCriteria(distanceList), avgCriteria(timeList), 
+									avgCriteria(delayList), avgCriteria(canceledList)));
+						} else {
+							Flight currFlight = flightMap.get(line[0] + " to " + line[1]);
+							currFlight.carriers.add(line[2]);
+							currFlight.cost = avgCriteria(costList);
+							currFlight.distance = avgCriteria(distanceList);
+							currFlight.time = avgCriteria(timeList);
+							currFlight.delay = avgCriteria(delayList);
+							currFlight.canceled = avgCriteria(canceledList);
+						}
 					}
 
 				}
@@ -346,7 +362,7 @@ public class NetworkGraph {
 
 	}
 
-	private double AvgCriteria(LinkedList<String> criteriaList) {
+	private double avgCriteria(LinkedList<String> criteriaList) {
 		double total = 0;
 		for(String s : criteriaList) {
 			total = total + Double.parseDouble(s);
