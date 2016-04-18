@@ -3,8 +3,10 @@
  */
 package assignment13;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -278,7 +280,7 @@ public class NetworkGraph {
 		// InputStreamReader inputStreamReader;
 		try {
 
-			Scanner inputStream = new Scanner(file);
+			Scanner inputStream = new Scanner(new BufferedReader(new FileReader(file)));
 
 			LinkedList<String> originList;
 			LinkedList<String> destinationList;
