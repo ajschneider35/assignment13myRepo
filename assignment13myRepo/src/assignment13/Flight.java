@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 public class Flight {
 
+	Airport orig;
 	Airport dest; // 2nd vertex in Edge
 	double cost; // Edge weight or cost
 	public LinkedList<String> carriers; // List of carriers that provide this
@@ -13,7 +14,8 @@ public class Flight {
 	double delay;
 	double canceled;
 
-	public Flight(Airport d, double c, LinkedList<String> car, double dis, double t, double de, double can) {
+	public Flight(Airport o, Airport d, double c, LinkedList<String> car, double dis, double t, double de, double can) {
+		orig = 
 		dest = d;
 		cost = c;
 		carriers = car;
@@ -27,5 +29,4 @@ public class Flight {
 	public Airport getOtherVertex() {
 		return dest;
 	}
-
 }
