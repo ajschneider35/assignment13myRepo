@@ -15,7 +15,7 @@ public class Flight {
 	double canceled;
 
 	public Flight(Airport o, Airport d, double c, LinkedList<String> car, double dis, double t, double de, double can) {
-		orig = 
+		orig = o;
 		dest = d;
 		cost = c;
 		carriers = car;

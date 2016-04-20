@@ -300,7 +300,7 @@ public class NetworkGraph {
 
 				if (line.length > 1) {
 					if (lineNumber == 0) {
-						for (int i = 0; i < line.length - 1; i++) {
+						for (int i = 0; i < line.length; i++) {
 							network.put(line[i], new LinkedList<String>());
 						}
 					} else {
@@ -314,7 +314,7 @@ public class NetworkGraph {
 						getAirport(line[1]); // Adds airport to the airportMap
 												// if it is not added already
 						destinationList = network.get("DESTINATION");
-						originList.add(line[1]);
+						destinationList.add(line[1]);
 						network.put("DESTINATION", destinationList);
 
 						carrierList = network.get("CARRIER");
@@ -337,7 +337,7 @@ public class NetworkGraph {
 						network.put("DISTANCE", distanceList);
 						network.put("COST", costList);
 						
-						if(!flightMap.containsKey(line[1])) {
+						if(!flightMap.containsKey(line[0] + " to " + line[1])) {
 							flightMap.put(line[0] + " to " + line[1], new Flight(airportMap.get(line[0]), airportMap.get(line[1]), avgCriteria(costList),
 									new LinkedList<String>(), avgCriteria(distanceList), avgCriteria(timeList), 
 									avgCriteria(delayList), avgCriteria(canceledList)));
